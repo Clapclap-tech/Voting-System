@@ -69,15 +69,16 @@ function createPost() {
     posts.unshift(newPost);
     localStorage.setItem("posts", JSON.stringify(posts));
 
-    document.getElementById("post-content").value = ""; // Clear input
-    renderTimeline(); // Update timeline
+    document.getElementById("post-content").value = ""; 
+    renderTimeline(); 
 }
 
+// update timeline add ang post
 function renderTimeline() {
     const posts = JSON.parse(localStorage.getItem("posts")) || [];
     const timeline = document.getElementById("timeline");
 
-    timeline.innerHTML = ""; // Clear previous posts
+    timeline.innerHTML = ""; 
 
     posts.forEach((post) => {
         const postCard = `
