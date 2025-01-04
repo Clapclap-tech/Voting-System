@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #A1C4FD 0%, #C2E9FB 100%);
+    color: #34495e;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #1c2833; /* Darker shade for a sleek look */
+    color: #ecf0f1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 20px;
+    position: fixed;
+    overflow-y: auto;
+    border-right: 2px solid #34495e; /* Subtle border to enhance structure */
+}
+
+/* User profile */
+.user-profile {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid #ecf0f1;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.user-avatar:hover {
+    transform: scale(1.1); /* Avatar zoom effect on hover */
+}
+
+.user-name {
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+/* Navigation menu */
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu li {
+    width: 100%;
+    position: relative; /* Ensure dropdown appears relative to the list item */
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 16px;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+    position: relative;
+    border-radius: 8px; /* Rounded corners for links */
+}
+
+.nav-menu a i {
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.nav-menu a span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.nav-menu a:hover {
+    background-color: #34495e; /* Slightly lighter shade for hover */
+    padding-left: 30px; /* Indent effect on hover */
+    cursor: pointer;
+}
+
+/* Dropdown menu */
+.dropdown {
+    display: none;
+    flex-direction: column;
+    background-color: #34495e;
+    border-radius: 8px;
+    margin-top: 10px; /* Add spacing between the parent menu item and dropdown */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure dropdown appears above other content */
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Smooth fade-in for dropdown */
+}
+
+.nav-menu li:hover .dropdown {
+    display: flex; /* Show dropdown on hover */
+    opacity: 1; /* Fade in when hovered */
+}
+
+.dropdown li a {
+    padding: 12px 40px;
+    color: #bdc3c7;
+    font-size: 14px;
+    text-align: left;
+    transition: background-color 0.3s ease, padding-left 0.3s ease; /* Smooth background change and padding */
+    white-space: nowrap;
+}
+
+.dropdown li a:hover {
+    background-color: #3c5569; /* Darker blue for hover */
+    color: #fff;
+    padding-left: 50px; /* Slight shift effect to give a modern feel */
+}
+
+.fas.fa-caret-down {
+    font-size: 12px;
+    color: #ecf0f1;
+    margin-left: 7.5px;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+}
+
+.nav-menu a.active .fas.fa-caret-down {
+    transform: rotate(180deg);
+}
+
+/* Main content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
+    background: #34495e; /* Light grey background for main content */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Center the iframe horizontally */
+    align-items: center; /* Center the iframe vertically */
+}
+
+.main-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+/* Chart container */
+.chart-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design for smaller screens */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .nav-menu a {
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+}
+
+
+/* Authentication Card */
+.auth-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 400px;
+    text-align: center;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.switch-form {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.switch-form a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.switch-form a:hover {
+    text-decoration: underline;
+}
+
+/* Main content and sidebar for after login */
+#homepage {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    transition: opacity 0.4s ease;
+}
+
+/* Smooth transition for login form and homepage */
+#auth-section, #homepage {
+    transition: opacity 0.4s ease;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .auth-card {
+        width: 90%;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    #homepage {
+        margin-left: 0;
+    }
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+}
