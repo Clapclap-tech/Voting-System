@@ -106,7 +106,7 @@ function showElectionsVote(electionKey) {
             content += `
                 <div class="candidate">
                     <input type="radio" name="${position}" value="${candidate.name}">
-                    <label style="margin-left: 10px;">${candidate.name} - Party: ${candidate.partylist}</label>
+                    <label style="margin-left: 10px;">${candidate.name} <span class="unbold"><i>Party: ${candidate.partylist}</i></span></label>
                 </div>`;
         });
 

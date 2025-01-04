@@ -159,7 +159,7 @@ body {
     width: 150px; 
     height: 50px; 
     padding: 0.8em 1.5em; 
-    font-size: 1em; /* Font size */
+    font-size: 1em; 
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -177,8 +177,8 @@ body {
 
 @media (max-width: 600px) {
     .card-buttons button {
-        padding: 0.5em 1em; /* Smaller padding for mobile */
-        font-size: 0.9em; /* Smaller font size for mobile */
+        padding: 0.5em 1em; 
+        font-size: 0.9em; 
     }
 }
 
@@ -232,7 +232,7 @@ body {
 }
 
 .party-container h2 {
-    color: #4a90e2; /* Party title color */
+    color: #4a90e2; 
     margin-bottom: 1em;
 }
 
@@ -242,20 +242,19 @@ body {
 }
 
 .party-container li {
-    margin-bottom: 1.5em; /* Space between candidates */
+    margin-bottom: 1.5em; 
 }
 
 .party-container li h3 {
-    color: #333; /* Candidate name color */
+    color: #333;
 }
 
 .party-container li p {
-    color: #666; /* Description color */
-    font-size: 0.9em; /* Description font size */
+    color: #666; 
+    font-size: 0.9em; 
 }
 
 
-/* VOTE HTML CSS*/
 .vote-section h2, .details-section h2 {
     color: #9f0505;
 }
@@ -368,12 +367,16 @@ button:hover {
     padding: 0.8em;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
-    background-color: #f9f9f9;
+    background-color: #eef2f7; 
 }
 
 .candidate label {
     margin-left: 10px;
     font-weight: bold;
     font-size: 1em;
-    color: #333;
+    color: #333; 
+}
+
+.unbold {
+    font-weight: normal;
 }

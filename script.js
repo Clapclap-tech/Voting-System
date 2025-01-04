@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Create the new iframe for Manage Elections
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', 'manageElections/Dalman.html'); // Source of the iframe for Manage Elections
+        iframe.setAttribute('src', 'Elections/Dalman.html'); // Source of the iframe for Manage Elections
         iframe.setAttribute('style', 'width: 100%; height: 100%; border: none;');
 
         // Append the new iframe to the main content

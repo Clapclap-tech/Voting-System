@@ -158,7 +158,7 @@ function addCandidate(electionName) {
         return;
     }
 
-    const candidateImagePath = "Images\\" + candidateImageFile.name;
+    const candidateImagePath = "Images/" + candidateImageFile.name;
 
     // Get the current stored election data
     let storedData = JSON.parse(localStorage.getItem('Election')) || {};
