@@ -16,26 +16,20 @@ document.getElementById("election-form").addEventListener("submit", function (e)
     const endDate = document.getElementById("election-end-date").value;
     const logo = document.getElementById("election-logo").files[0];
 
-    // Check if all fields are filled
     if (!electionName || !startDate || !endDate || !logo) {
         alert("Please fill out all fields before submitting.");
-        return; // Stop the submission if any field is empty
+        return;
     }
 
     const logoName = logo ? logo.name : "No logo selected";
 
-    const candidateImagePath = "Images\\" + logo.name; // Full path to the logo file
+    const candidateImagePath = "Images\\" + logo.name;
 
     const message = `Election "${electionName}" created. Start Date: ${startDate}, End Date: ${endDate}. Logo: ${logoName}`;
     alert(message);
 
-    // Save election data to localStorage, including the logo file path
     saveToLocalStorage(electionName, [], startDate, endDate, candidateImagePath);
-
-    // Reset the form after submission
     document.getElementById("election-form").reset();
-
-    // Create candidates table after successful election creation
     createCandidatesTable(electionName, startDate, endDate, candidateImagePath);
 });
 
@@ -101,7 +95,8 @@ function createCandidatesTable(electionName, startDate, endDate, electionLogo) {
         <td>
             <input type="file" id="candidate-image-${electionName}" accept="image/*">
             <input type="text" id="candidate-name-${electionName}" placeholder="Enter candidate's name">
-            <input type="number" id="candidate-partylist-${electionName}" placeholder="Enter candidate's partylist [Number]">
+            <input type="text" id="candidate-partylist-${electionName}" placeholder="Enter candidate's partylist">
+            <input type="text" id="candidate-section-${electionName}" placeholder="Enter candidate's section">
         </td>
         <td>
             <select id="candidate-position-${electionName}">
@@ -135,9 +130,9 @@ function confirmDeleteElection(electionName) {
     if (confirmation) {
         const electionTable = document.getElementById(`election-table-${electionName}`);
         if (electionTable) {
-            electionTable.remove(); // Remove the table from the DOM
+            electionTable.remove();
             let storedData = JSON.parse(localStorage.getItem('Election')) || {};
-            delete storedData[electionName]; // Delete the election data from localStorage
+            delete storedData[electionName]; 
             localStorage.setItem('Election', JSON.stringify(storedData)); // Update localStorage
             alert(`Election "${electionName}" has been deleted.`);
         }
@@ -150,19 +145,22 @@ function addCandidate(electionName) {
     const candidateImageFile = document.getElementById(`candidate-image-${electionName}`).files[0];
     const candidateGender = document.getElementById(`candidate-gender-${electionName}`).value;
     const candidatePartylist = document.getElementById(`candidate-partylist-${electionName}`).value;
-    const candidateVote = 0;
-    const candidateDescription = document.getElementById(`candidate-description-${electionName}`).value;
+    let candidateVote = 0;
+    let candidateDescription = document.getElementById(`candidate-description-${electionName}`).value;
+    const candidateSection = document.getElementById(`candidate-section-${electionName}`).value;
 
-    if (!candidateName || !candidatePosition || !candidateImageFile || !candidateGender || !candidatePartylist) {
+    if (!candidateName || !candidatePosition || !candidateImageFile || !candidateGender || !candidatePartylist || !candidateSection) {
         alert('Please fill out all fields!');
         return;
     }
+
+    if (!candidateDescription) candidateDescription = "No description";
 
     const candidateImagePath = "Images/" + candidateImageFile.name;
 
     // Get the current stored election data
     let storedData = JSON.parse(localStorage.getItem('Election')) || {};
-    let election = storedData[electionName] || { startDate: "Unknown Start Date", endDate: "Unknown End Date", candidates: [], logo: null };
+    let election = storedData[electionName]
 
     const candidate = {
         name: candidateName,
@@ -171,17 +169,15 @@ function addCandidate(electionName) {
         gender: candidateGender,
         partylist: candidatePartylist,
         votes: candidateVote,
-        description: candidateDescription
+        description: candidateDescription,
+        section: candidateSection
     };
 
-    // Add the new candidate to the election's candidates array
     election.candidates.push(candidate);
-
-    // Save to localStorage
     saveToLocalStorage(electionName, election.candidates, election.startDate, election.endDate, election.logo);
 
     // Add the candidate row to the table
-    const newRow = createCandidateRow(candidateName, candidatePosition, candidateImagePath, electionName, candidateGender, candidatePartylist, candidateDescription);
+    const newRow = createCandidateRow(candidateName, candidatePosition, candidateImagePath, electionName, candidateGender, candidatePartylist, candidateDescription, candidateSection);
     const candidatesBody = document.getElementById(`candidates-body-${electionName}`);
     candidatesBody.insertBefore(newRow, candidatesBody.lastChild);
 
@@ -195,7 +191,7 @@ function addCandidate(electionName) {
 }
 
 
-function createCandidateRow(name, position, image, electionName, gender, partylist, description) {
+function createCandidateRow(name, position, image, electionName, gender, partylist, description, section) {
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>
@@ -206,6 +202,7 @@ function createCandidateRow(name, position, image, electionName, gender, partyli
             <p>Partylist: ${partylist}</p>
             <p>Position: ${position}</p>
             <p>Gender: ${gender}</p>
+            <p>Section: ${section}</p>
             <p>Description: ${description}</p>
         </td>
         <td>
@@ -221,10 +218,9 @@ function deleteCandidate(electionName, name, button) {
     const confirmation = confirm(`Are you sure you want to delete the candidate "${name}"?`);
 
     if (!confirmation) {
-        return; // Exit if the user cancels the deletion
+        return;
     }
 
-    // Remove the row from the DOM
     row.remove();
 
     // Remove the candidate from localStorage
@@ -234,7 +230,6 @@ function deleteCandidate(electionName, name, button) {
     if (election && election.candidates) {
         // Filter out the candidate to delete
         election.candidates = election.candidates.filter(candidate => candidate.name !== name);
-        // Save the updated data back to localStorage
         localStorage.setItem('Election', JSON.stringify(storedData));
     }
 
@@ -245,14 +240,12 @@ function deleteCandidate(electionName, name, button) {
 function saveToLocalStorage(electionName, candidates = [], startDate = null, endDate = null, logoURL = null) {
     let elections = JSON.parse(localStorage.getItem('Election')) || {};
 
-    // If startDate, endDate, or logoURL are provided, save the election data
     if (startDate && endDate) {
         elections[electionName] = { startDate, endDate, candidates: candidates, logo: logoURL || null };
     }
 
     // If candidates are provided, add them to the election's candidates array
     if (candidates.length > 0) {
-        // Check if the election exists and if candidates exist for it
         if (!elections[electionName]) {
             elections[electionName] = { startDate: "Unknown Start Date", endDate: "Unknown End Date", candidates: [], logo: null };
         }
@@ -262,7 +255,6 @@ function saveToLocalStorage(electionName, candidates = [], startDate = null, end
     localStorage.setItem('Election', JSON.stringify(elections));
 }
 
-// Modify the loading process to handle the new structure
 window.addEventListener('load', () => {
     const storedData = JSON.parse(localStorage.getItem('Election')) || {};
     for (const electionName in storedData) {
@@ -270,16 +262,14 @@ window.addEventListener('load', () => {
         const startDate = election.startDate || "Unknown Start Date";
         const endDate = election.endDate || "Unknown End Date";
 
-        // Retrieve the logo URL from the election data (make sure you save it in localStorage)
         const electionLogo = election.logo;
-        // Pass the electionLogo to the createCandidatesTable function
         createCandidatesTable(electionName, startDate, endDate, electionLogo);
 
         // Add candidates to the table
         election.candidates
             .filter(candidate => candidate !== null)
             .forEach(candidate => {
-                const newRow = createCandidateRow(candidate.name, candidate.position, candidate.image, electionName, candidate.gender, candidate.partylist, candidate.description);
+                const newRow = createCandidateRow(candidate.name, candidate.position, candidate.image, electionName, candidate.gender, candidate.partylist, candidate.description, candidate.section);
                 const tableBody = document.getElementById(`candidates-body-${electionName}`);
                 tableBody.insertBefore(newRow, tableBody.lastChild);
             });

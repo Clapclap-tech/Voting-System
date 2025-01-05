@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Create the new iframe for Elections
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', 'Elections/harold.html'); // Your specific file for elections
+        iframe.setAttribute('src', 'Elections/harold&jose.html'); // Your specific file for elections
         iframe.setAttribute('style', 'width: 100%; height: 100%; border: none;');
 
         // Append the new iframe to the main content

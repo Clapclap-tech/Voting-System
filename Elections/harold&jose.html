@@ -29,19 +29,21 @@
                     
                 </div>
             </section>
+
+            <section id="view-details" class="section hidden">
+                <button class="back-elections-btn" onclick="showSection('main-elections')">Go back</button>
+                <div id="view-details-list"> <!-- Append Class --> </div> 
+            </section>
                 
             <section id="vote-elections" class="section hidden">
                 <button class="back-elections-btn" onclick="showSection('main-elections')">Go back</button>
                 <header>
                     <h1>Election Candidates</h1>
+                    <p>Vote your candidates now!</p>
                 </header>
         
                 <div class="vote-container">
-                    <div id="candidate-list"></div>
-        
-                    <div class="button-container">
-                        <button id="cast-votes">Cast Votes</button>
-                    </div>
+                    <div id="candidate-list"> <!-- Append Class --> </div>
                 </div>
             </section>
 
