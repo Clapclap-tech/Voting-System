@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event listener for "Manage Elections"
     document.getElementById('manage-elections').addEventListener('click', function () {
-        showIFrame('Elections/Dalman.html');
+        showIFrame('Elections/dalman.html');
     });
 
     // Event listener for "Elections"
