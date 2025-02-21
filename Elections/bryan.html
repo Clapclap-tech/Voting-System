@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Dashboard</title>
+    <link rel="stylesheet" href="bryan.css">
+</head>
+<body>
+    <header class="navbar">
+        <h1>Election Status: 
+            <span class="gradient-text status-text" onclick="toggleStatusPopup()">Ongoing</span>
+        </h1>        
+        <button class="vote-button">Vote Now!</button>
+    </header>
+
+    <main class="container">
+        <section class="header-actions">
+            <h2>Candidates</h2>
+        </section>
+        
+        <section class="candidate-cards" id="candidate-cards">
+            <!-- Cards will dynamically populate here -->
+        </section>
+    </main>
+
+    <!-- Status Popup -->
+    <div class="status-popup" id="statusPopup">
+        <h3>Update Status</h3>
+        <div class="status-options">
+            <button class="status-option ongoing" onclick="setStatus('Ongoing', 'green')">Ongoing</button>
+            <button class="status-option ended" onclick="setStatus('Ended', 'red')">Ended</button>
+            <button class="status-option suspended" onclick="setStatus('Suspended', 'orange')">Suspended</button>
+        </div>
+        <button class="popup-close" onclick="toggleStatusPopup()">Cancel</button>
+    </div>
+    <div class="overlay" id="statusOverlay" onclick="toggleStatusPopup()"></div>
+
+    <script src="bryan.js"></script>
+</body>
+</html>
