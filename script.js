@@ -93,38 +93,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // Call the function to set up the dropdown
     setupVotingDropdown();
 
-    // Handle "Election Details" and "Manage Elections"
-    const activeElectionsLink = document.getElementById('active-elections');
-    const manageElectionsLink = document.getElementById('manage-elections');
     const mainContent = document.querySelector('.main-content');
 
     // Event listener for "Manage Elections"
-    manageElectionsLink.addEventListener('click', function () {
-        // Clear the previous content if any
-        mainContent.innerHTML = '';
-
-        // Create the new iframe for Manage Elections
-        const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', 'Elections/Dalman.html'); // Source of the iframe for Manage Elections
-        iframe.setAttribute('style', 'width: 100%; height: 100%; border: none;');
-
-        // Append the new iframe to the main content
-        mainContent.appendChild(iframe);
+    document.getElementById('manage-elections').addEventListener('click', function () {
+        showIFrame('Elections/Dalman.html');
     });
-
-    const votingToggle = document.getElementById('voting-toggle');
 
     // Event listener for "Elections"
-    votingToggle.addEventListener('click', function () {
-        // Clear the previous content if any
-        mainContent.innerHTML = '';
-
-        // Create the new iframe for Elections
-        const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', 'Elections/harold&jose.html'); // Your specific file for elections
-        iframe.setAttribute('style', 'width: 100%; height: 100%; border: none;');
-
-        // Append the new iframe to the main content
-        mainContent.appendChild(iframe);
+    document.getElementById('voting-toggle').addEventListener('click', function () {
+        showIFrame('Elections/harold&jose.html');
     });
+
+    function showIFrame(iframeSrc) {
+        mainContent.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', iframeSrc);
+        iframe.setAttribute('style', 'width: 100%; height: 100%; border: none;');
+        mainContent.appendChild(iframe);
+    }
 });

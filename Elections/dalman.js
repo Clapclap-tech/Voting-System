@@ -54,9 +54,8 @@ function createCandidatesTable(electionName, startDate, endDate, electionLogo) {
         tableDiv.innerHTML = logoHTML + tableDiv.innerHTML; // Prepend the logo HTML to the tableDiv
     }
     
-
     const tableHeader = document.createElement('h3');
-    tableHeader.innerHTML = `Candidates for ${electionName} (Start Date: ${startDate}, End Date: ${endDate})`;
+    tableHeader.innerHTML = `Candidates for ${electionName} <br> (Start Date: ${startDate}, End Date: ${endDate})`;
 
     // Create the Delete Election button
     const deleteButton = document.createElement('button');
@@ -145,7 +144,6 @@ function addCandidate(electionName) {
     const candidateImageFile = document.getElementById(`candidate-image-${electionName}`).files[0];
     const candidateGender = document.getElementById(`candidate-gender-${electionName}`).value;
     const candidatePartylist = document.getElementById(`candidate-partylist-${electionName}`).value;
-    let candidateVote = 0;
     let candidateDescription = document.getElementById(`candidate-description-${electionName}`).value;
     const candidateSection = document.getElementById(`candidate-section-${electionName}`).value;
 
@@ -168,9 +166,10 @@ function addCandidate(electionName) {
         image: candidateImagePath,
         gender: candidateGender,
         partylist: candidatePartylist,
-        votes: candidateVote,
+        votes: 0,
         description: candidateDescription,
-        section: candidateSection
+        section: candidateSection,
+        elected: "no"
     };
 
     election.candidates.push(candidate);

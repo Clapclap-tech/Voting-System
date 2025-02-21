@@ -231,7 +231,7 @@ body {
 
 .party-list {
     display: grid;
-    width: 80%;
+    width: 100%;
     grid-template-columns: repeat(2, 1fr); /* Set 2 columns */
     gap: 20px;
 }
@@ -247,6 +247,7 @@ body {
 .party-container h2 {
     color: #4a90e2; 
     margin-bottom: 1em;
+    text-align: center;
 }
 
 .party-container ul {
@@ -265,6 +266,53 @@ body {
 .party-container li p {
     color: #666; 
     font-size: 0.9em; 
+}
+
+/* For format img in display election */
+.candidate-card {
+    display: flex;
+    gap: 20px;
+    padding: 1em;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.candidate-image img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4a90e2;
+}
+
+.candidate-details {
+    flex: 1;
+}
+
+.candidate-details h3 {
+    color: #333;
+    margin-bottom: 0.5em;
+}
+
+.candidate-details p {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin: 0.3em 0;
+}
+
+.candidate-details p span {
+    font-weight: bold;
+    color: #4a90e2;
 }
 
 .candidate-option {
@@ -302,6 +350,12 @@ button:hover {
     transform: translateY(-2px);
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .back-elections-btn {
     position: fixed;
     width: 120px;
@@ -333,7 +387,7 @@ button:hover {
 
 /* Vote Container */
 .vote-container {
-    width: 80%;
+    width: 60%;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -344,8 +398,11 @@ button:hover {
 
 
 /* Candidate List */
-#candidate-list {
-    margin-bottom: 2em;
+
+#candidate-list h3{
+    font-size: 25px;
+    text-align: center;
+    color: #4a90e2; 
 }
 
 .candidate {
@@ -368,3 +425,4 @@ button:hover {
 .unbold {
     font-weight: normal;
 }
+

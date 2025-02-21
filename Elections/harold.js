@@ -74,7 +74,7 @@ function viewDetails(electionKey) {
     }
 
     const mainContent = document.getElementById('view-details-list');
-    mainContent.innerHTML = ''; 
+    mainContent.innerHTML = '';
 
     const header = document.createElement('header');
     header.innerHTML = `
@@ -99,18 +99,24 @@ function viewDetails(electionKey) {
     for (const [partylist, candidates] of Object.entries(parties)) {
         const partyContainer = document.createElement('div');
         partyContainer.className = 'party-container';
-        partyContainer.innerHTML = `<h2>Partylist ${partylist}</h2>`;
+        partyContainer.innerHTML = `<h2>Partylist: ${partylist}</h2>`;
 
         const ul = document.createElement('ul');
 
         candidates.forEach(candidate => {
             const li = document.createElement('li');
-            li.innerHTML = ` 
-                <h3>${candidate.position}: ${candidate.name}</h3>
-                <p>Party Affiliation: ${candidate.partylist}</p>
-                <p>Gender: ${candidate.gender}</p>
-                <p>Section: ${candidate.section}</p>
-                <p>Description: ${candidate.description}</p>
+            li.className = 'candidate-card'; // Add a class for styling
+            li.innerHTML = `
+                <div class="candidate-image">
+                    <img src="${candidate.image}" alt="${candidate.name}">
+                </div>
+                <div class="candidate-details">
+                    <h3>${candidate.position}: ${candidate.name}</h3>
+                    <p><span>Party Affiliation:</span> ${candidate.partylist}</p>
+                    <p><span>Gender:</span> ${candidate.gender}</p>
+                    <p><span>Section:</span> ${candidate.section}</p>
+                    <p><span>Description:</span> ${candidate.description}</p>
+                </div>
             `;
             ul.appendChild(li);
         });
@@ -122,13 +128,13 @@ function viewDetails(electionKey) {
     mainContent.appendChild(section);
 
     const button = document.createElement('button');
-    button.style.marginBottom = '50px'; 
+    button.style.marginBottom = '50px';
     button.innerHTML = 'Cast Vote';
     button.setAttribute(
         'onclick',
         `showSection('vote-elections'); showElectionsVote('${electionKey}')`
     );
-    mainContent.appendChild(button); 
+    mainContent.appendChild(button);
 }
 
 
@@ -137,45 +143,58 @@ function showElectionsVote(electionKey) {
     const election = storedData[electionKey];
 
     if (!election || !election.candidates || election.candidates.length === 0) {
-        alert(`No candidates found on ${electionKey}`);
+        alert(`No candidates found for ${electionKey}`);
         showSection('main-elections');
         return;
     }
 
     const candidateList = document.getElementById('candidate-list');
-    const positionMap = {};
+    candidateList.innerHTML = ''; // Clear previous content
 
-    election.candidates
-        .filter(candidate => candidate !== null) // Filter out null candidates
-        .forEach(candidate => {
-            if (!positionMap[candidate.position]) {
-                positionMap[candidate.position] = [];
+    const header = document.createElement('header');
+    header.innerHTML = `
+        <h1>Vote for ${electionKey}</h1>
+        <p>Vote for your candidates now!</p>
+    `;
+    candidateList.appendChild(header);
+
+    const positionMap = election.candidates
+        .filter(candidate => candidate && candidate.name && candidate.position) // Filter invalid candidates
+        .reduce((map, candidate) => {
+            if (!map[candidate.position]) {
+                map[candidate.position] = [];
             }
-            positionMap[candidate.position].push(candidate);
-        });
+            map[candidate.position].push(candidate);
+            return map;
+        }, {});
 
     let content = '';
 
     for (const position in positionMap) {
-        content += `<h3>${position}</h3><div class="radio-group">`;
+        content += `<h3>${position} Position</h3><div class="radio-group">`;
 
         positionMap[position].forEach(candidate => {
             content += `
                 <div class="candidate">
-                    <input type="radio" name="${position}" value="${candidate.name}" data-id="${candidate.name}-${candidate.position}" data-party="${candidate.partylist}" data-position="${candidate.position}" data-name="${candidate.name}">
-                    <label style="margin-left: 10px;">${candidate.name} <span class="unbold"><i>Party: ${candidate.partylist}</i></span></label>
+                    <input type="radio" name="${position}" value="${candidate.name}" 
+                        data-id="${candidate.name}-${candidate.position}" 
+                        data-party="${candidate.partylist}" 
+                        data-position="${candidate.position}" 
+                        data-name="${candidate.name}">
+                    <label>${candidate.name} 
+                        <span class="unbold"><i>Party List: ${candidate.partylist}</i></span>
+                    </label>
                 </div>`;
         });
 
-        content += `</div>`;
+        content += `</div><br>`;
     }
 
     content += `
         <div class="button-container">
             <button id="cast-votes" onclick="increVote('${electionKey}')">Cast Votes</button>
         </div>`;
-
-    candidateList.innerHTML = content;
+    candidateList.innerHTML += content; // Append generated content
 }
 
 function increVote(electionKey) {

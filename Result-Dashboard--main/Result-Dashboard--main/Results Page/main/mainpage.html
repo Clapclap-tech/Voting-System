@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Election Results Dashboard</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+
+    }
+
+    .dropdown-content {
+
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 85px;
+      z-index: 1;
+
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content button {
+      padding: 8px;
+      width: 100%;
+      background: none;
+      border: none;
+      color: black;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .dropdown-content button:hover {
+      background-color: #ddd;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!--  <div class="dashboard">-->
+  <!-- header -->
+  <header>
+    <div>
+      <h1>Election Results Dashboard</h1>
+    </div>
+    <div class="header-buttons">
+      <div class="dropdown">
+        <button>
+          <i class="fas fa-download"></i> Download
+        </button>
+        <div class="dropdown-content">
+          <button onclick="downloadCSV()">Download CSV</button>
+          <button onclick="downloadPDF()">Download PDF</button>
+        </div>
+      </div>
+      <button onclick="publish()">
+        <i class="fas fa-paper-plane"></i> Publish
+      </button>
+    </div>
+  </header>
+
+
+
+
+  <!-- dropdown menu-->
+  <div class="dropdown-header">
+    <div class="filters">
+      <label>Election:</label>
+      <select>
+        <option>President</option>
+      </select>
+      <label>Type:</label>
+      <select>
+        <option>SSG</option>
+      </select>
+      <label>Filter By:</label>
+      <select>
+        <option>Select</option>
+      </select>
+      <label>Year:</label>
+      <select>
+        <option>Select</option>
+      </select>
+      <div class="status-label">Status: <span class="status-completed">Completed</span></div>
+    </div>
+  </div>
+  <!--<div class="status-label">Status: <span id="status">Loading...</span></div> -->
+  <!--<button class="export-button">
+  <i class="fas fa-file-csv"></i> Export CSV
+</button> -->
+
+  <!-- top candidates (WIP)--
+<div class="top-candidates">
+  <h2>Top Candidates</h2>
+  <div class="candidate-row">
+    <div class="candidate-card">
+      <img src="path_to_candidate_image1.jpg" alt="Candidate 1">
+      <div class="candidate-details">
+        <h3>Candidate1</h3>
+        <p>Party: Party </p>
+        <p>Votes: Vote %</p>
+      </div>
+    </div>
+    <div class="candidate-card">
+      <img src="path_to_candidate_image2.jpg" alt="Candidate 2">
+      <div class="candidate-details">
+        <h3>Candidate2</h3>
+        <p>Party: Party</p>
+        <p>Votes: Vote %</p>
+      </div>
+    </div>
+    <div class="candidate-card">
+      <img src="path_to_candidate_image3.jpg" alt="Candidate 3">
+      <div class="candidate-details">
+        <h3>Candidate3</h3>
+        <p>Party: Party</p>
+        <p>Votes: Vote P%</p>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
+  <div class="stats">
+    <div class="stat">
+      <h2>Participation Rate</h2>
+      <canvas id="turnoutChart" width="180" height="180"></canvas>
+      <div class="total-voters">
+        <p>Total Voters: <span id="totalVoters">Loading...</span><span class="dots"></span></p>
+      </div>
+    </div>
+    <div class="stat">
+      <h2>Votes Casted</h2>
+      <canvas id="ballotsChart" width="180" height="180"></canvas>
+      <div class="total-votes">
+        <p>Total Votes: <span id="totalVotes">Loading...</span><span class="dots"></span></p>
+      </div>
+    </div>
+  </div>
+  <div class="results-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Party</th>
+          <th>Elected</th>
+          <th>% of Votes</th>
+          <th>Total Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 1</td>
+          <td>Female</td>
+          <td>PT1</td>
+          <td class="elected-yes">Yes</td>
+          <td>
+            <div class="vote-bar-container">
+              23.73%
+              <div class="vote-bar" style="width: 23.73%;"></div>
+            </div>
+          </td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 2</td>
+          <td>Male</td>
+          <td>PT2</td>
+          <td class="elected-yes">Yes</td>
+          <td>
+            <div class="vote-bar-container">
+              16.95%
+              <div class="vote-bar" style="width: 16.95%;"></div>
+            </div>
+          </td>
+          <td>29</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 3</td>
+          <td>Male</td>
+          <td>PT1</td>
+          <td class="elected-yes">Yes</td>
+          <td>
+            <div class="vote-bar-container">
+              16.80%
+              <div class="vote-bar" style="width: 16.80%;"></div>
+            </div>
+          </td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 4</td>
+          <td>Male</td>
+          <td>PT3</td>
+          <td class="elected-yes">Yes</td>
+          <td>
+            <div class="vote-bar-container">
+              16.59%
+              <div class="vote-bar" style="width: 16.59%;"></div>
+            </div>
+          </td>
+          <td>27</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 5</td>
+          <td>Male</td>
+          <td>PT3</td>
+          <td class="elected-no">No</td>
+          <td>
+            <div class="vote-bar-container">
+              12.35%
+              <div class="vote-bar" style="width: 12.35%;"></div>
+            </div>
+          </td>
+          <td>21</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><img src="images.png" alt="Profile" class="profile-icon" /> Candidate 6</td>
+          <td>Male</td>
+          <td>PT1</td>
+          <td class="elected-yes">Yes</td>
+          <td>
+            <div class="vote-bar-container">
+              11.78%
+              <div class="vote-bar" style="width: 11.78%;"></div>
+            </div>
+          </td>
+          <td>20</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Results modalls (wip)-->
+
+
+
+  <div id="modal1" class="vote-breakdown-modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Vote Breakdown - Candidate 1</h2>
+      <p>Detailed vote information for Candidate 1...</p>
+    </div>
+  </div>
+  <!-- Im lazy-->
+  </tbody>
+  </table>
+  </div>
+
+
+
+
+  <script src="main.js"></script>
+  <script src="liveview.js"></script>
+  <script src="breakdown.js"></script>
+  <script src="toggle.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      // Fetch results data from Flask
+      function fetchResults() {
+        fetch('/results')
+          .then(response => response.json())
+          .then(data => {
+
+            var tbody = document.getElementById('results-tbody');
+            tbody.innerHTML = '';
+
+            // Variables to store totals
+            let totalVoters = 0;
+            let totalVotes = 0;
+
+            data.forEach(candidate => {
+              var row = document.createElement('tr');
+              row.innerHTML = `
+                        <td>${candidate.name}</td>
+                        <td>${candidate.party}</td>
+                        <td>${candidate.votes}</td>
+                        <td>${candidate.percentage}</td>
+                    `;
+              tbody.appendChild(row);
+
+              // total
+              totalVoters += candidate.voters;
+              totalVotes += candidate.votes;
+            });
+
+            // Update totals
+            document.getElementById('totalVoters').innerText = totalVoters.toLocaleString();
+            document.getElementById('totalVotes').innerText = totalVotes.toLocaleString();
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }
+
+      // Refresh 
+      setInterval(fetchResults, 60000);
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    // function for CSV
+    function downloadCSV() {
+      const table = document.getElementById("results-table");
+      let csv = [];
+      const rows = table.querySelectorAll("tr");
+
+      for (let row of rows) {
+        let cols = row.querySelectorAll("td, th");
+        let csvRow = [];
+        for (let col of cols) {
+          csvRow.push(col.innerText);
+        }
+        csv.push(csvRow.join(","));
+      }
+
+
+      const csvFile = new Blob([csv.join("\n")], { type: 'text/csv' });
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(csvFile);
+      downloadLink.download = "election_results.csv";
+      downloadLink.click();
+    }
+
+    // for PDF
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const table = document.getElementById("results-table");
+      const rows = table.querySelectorAll("tr");
+
+      let tableContent = [];
+      rows.forEach((row, rowIndex) => {
+        const cols = row.querySelectorAll("td, th");
+        let rowData = [];
+        cols.forEach(col => {
+          rowData.push(col.innerText);
+        });
+        tableContent.push(rowData);
+      });
+
+
+      doc.autoTable({
+        head: [tableContent[0]],
+        body: tableContent.slice(1),
+      });
+
+
+      doc.save("election_results.pdf");
+    }
+
+    // placeholder for publish
+    function publish() {
+      alert("Publish button clicked!");
+    }
+  </script>
+</body>
+
+</html>
