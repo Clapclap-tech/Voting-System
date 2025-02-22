@@ -105,6 +105,18 @@ document.addEventListener("DOMContentLoaded", () => {
         showIFrame('Elections/harold&jose.html');
     });
 
+    document.getElementById('result-page').addEventListener('click', function () {
+        showIFrame('Result-Dashboard--main\\Result-Dashboard--main\\Results Page\\main\\mainpage.html');
+    });
+
+    document.getElementById('result-page').addEventListener('click', function () {
+        showIFrame('Result-Dashboard--main\\Result-Dashboard--main\\Results Page\\main\\mainpage.html');
+    });
+
+    document.getElementById('settings-page').addEventListener('click', function () {
+        showIFrame('Elections\\JL.html');
+    });
+
     function showIFrame(iframeSrc) {
         mainContent.innerHTML = '';
         const iframe = document.createElement('iframe');

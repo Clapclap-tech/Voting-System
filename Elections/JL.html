@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Voting System Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="JL.css">
+    <link rel="icon" href="Images/download-removebg-preview.png">
+</head>
+<body>
+
+    <section id="spots" class="spots">
+        <h2>SETTINGS</h2>
+
+        <div class="article">
+            <h3>DARK MODE</h3>
+            <div class="article-images">
+                <img src="Images/1661145187108.gif" alt="DARK MODE">
+            </div>
+            <p><label class="toggle-switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+            </label>
+            Dark Mode: transforms the screen into a subtle glow, reducing harsh contrasts and easing eye strain in the dim light.
+            </p>
+        </div>
+
+        <div class="article">
+            <h3>NOTIFICATION PREFERENCE</h3>
+            <h1><label class="toggle-switch">
+                <input type="checkbox" id="smsUpdatesToggle">
+                <span class="slider"></span>
+            </label>
+            Recieve Important Email Updates
+            </h1>
+            <p>Emails relating to new election status, important program updates, recommendation requests and status, and/or review board information</p>
+            <h1><label class="toggle-switch">
+                <input type="checkbox" id="smsUpdatesToggle">
+                <span class="slider"></span>
+            </label>
+            Recieve Important SMS Updates
+            </h1>
+            <p>SMS relating to new elections status, important program updates, recommendation requests and status, and/or review board information</p>
+            <h1><label class="toggle-switch">
+                <input type="checkbox" id="smsUpdatesToggle">
+                <span class="slider"></span>
+            </label>
+            Recieve Promotional Emails
+            </h1>
+            <p>Emails relating to new elections.</p>
+        </div>
+        
+
+        <div class="article">
+            <h3>RAMON M. DURANO SR. MEMORIAL SPORTS COMPLEX</h3>
+            <div class="article-images">
+                <img src="Images/6a2b67cb-55a3-4c13-9151-02e8b11cd51c.jfif" alt="Article 3 Image 1">
+                <img src="Images/79db231a-5bcf-4229-99ec-4f5296ae58ad.jfif" alt="Article 3 Image 2">
+                <img src="Images/44aa246b-0e42-401f-bff1-657e7f47838d.jfif" alt="Article 3 Image 3">
+            </div>
+            <p>The Ramon M. Durano Memorial Sports Complex at Cebu Technological University-Danao Campus stands as a premier facility dedicated to sports, recreation, and community events. 
+                This expansive complex is designed to host a variety of activities, making it a vital asset for both school and external customers. It serves as a venue for school competitions, 
+                athletic training, and physical education programs, while also welcoming guests for special events such as sports tournaments, festivals, and concerts. The facility boasts ample 
+                space, accommodating large crowds and providing an inclusive environment for everyone to enjoy. Its modern amenities and well-maintained grounds make it one of the highlight 
+                facilities of the university, showcasing CTU-Danao’s commitment to promoting physical fitness, community engagement, and cultural celebrations. The Ramon M. Durano Memorial 
+                Sports Complex not only enhances the student experience but also strengthens the university's role as a hub for community activities and events.</p>
+        </div>
+    </section>
+    
+    <script>
+        const toggleSwitch = document.getElementById('darkModeToggle');
+
+        // Check local storage for dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            toggleSwitch.checked = true; // Set the toggle to checked
+        }
+
+        // Event listener to handle dark mode toggle
+        toggleSwitch.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+
+            // Save the user's preference in local storage
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>

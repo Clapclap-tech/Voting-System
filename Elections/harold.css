@@ -281,11 +281,6 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.candidate-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-}
-
 .candidate-image img {
     width: 100px;
     height: 100px;

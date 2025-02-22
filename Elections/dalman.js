@@ -169,7 +169,7 @@ function addCandidate(electionName) {
         votes: 0,
         description: candidateDescription,
         section: candidateSection,
-        elected: "no"
+        elected: false
     };
 
     election.candidates.push(candidate);
