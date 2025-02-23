@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     homepage.style.display = "flex";
                     homepage.style.opacity = "1";
                     userNameElement.textContent = account.username;
-                    userRoleElement.textContent = account.role.charAt(0).toUpperCase() + account.role.slice(1);
+                    userRoleElement.textContent = "Role: " + account.role.charAt(0).toUpperCase() + account.role.slice(1);
                     userAvatarElement.src = account.img;
                 }, 400);
                 alert("Login successful!");
