@@ -26,11 +26,22 @@ document.addEventListener("DOMContentLoaded", () => {
     function ensureAdminAccount() {
         let accounts = getStoredAccounts();
         if (!accounts.some(acc => acc.username === "admin")) {
-            saveAccount({ username: "admin", password: "admin", role: "admin", img: "Images/hecker.jpg" });
+            saveAccount({ username: "admin", password: "admin", role: "admin", img: "Images\\hecker.jpg" });
         }
     }
 
     ensureAdminAccount();
+
+    // Check if user is already logged in by reading settingsVoting from localStorage
+    const settingsVoting = JSON.parse(localStorage.getItem("settingsVoting"));
+    if (settingsVoting && settingsVoting.isLogin === true) {
+        authSection.style.display = "none";
+        homepage.style.display = "flex";
+        userNameElement.textContent = settingsVoting.username;
+        userRoleElement.textContent = settingsVoting.role.charAt(0).toUpperCase() + settingsVoting.role.slice(1);
+        userAvatarElement.src = settingsVoting.img;
+        showIFrame("Elections/home.html");
+    }
 
     signupLink.addEventListener("click", () => {
         document.querySelector("h2").textContent = "Create an Account";
@@ -58,12 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             let account = findAccount(username, password);
             if (account) {
-                // Store current logged-in account
-                localStorage.setItem("currentAccVoting", JSON.stringify({
+                localStorage.setItem("settingsVoting", JSON.stringify({
                     username: account.username,
                     password: account.password,
                     role: account.role,
-                    img: account.img
+                    img: account.img,
+                    isDarkMode: false,
+                    isLogin: true
                 }));
 
                 authSection.style.opacity = "0";
@@ -86,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoutBtn) {
         logoutBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            localStorage.removeItem("currentAccVoting"); // Remove current logged-in account
+            localStorage.removeItem("settingsVoting"); // Remove current logged-in account settings
             authSection.style.display = "block";
             homepage.style.display = "none";
             alert("You have logged out. Please log in again.");
@@ -121,5 +133,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("settings-page").addEventListener("click", function () {
         showIFrame("Elections/JL.html");
     });
-
 });
