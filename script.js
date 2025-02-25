@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userNameElement = document.querySelector(".user-name");
     const userRoleElement = document.querySelector(".user-role");
     const userAvatarElement = document.querySelector(".user-avatar");
+    const manageElectionsItem = document.getElementById("manage-elections");
 
     function getStoredAccounts() {
         return JSON.parse(localStorage.getItem("accountVoting")) || [];
@@ -26,21 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
     function ensureAdminAccount() {
         let accounts = getStoredAccounts();
         if (!accounts.some(acc => acc.username === "admin")) {
-            saveAccount({ username: "admin", password: "admin", role: "admin", img: "Images\\hecker.jpg" });
+            saveAccount({ username: "admin", password: "admin", role: "admin", img: "https://avatarfiles.alphacoders.com/106/106637.jpg" });
         }
     }
 
     ensureAdminAccount();
 
-    // Check if user is already logged in by reading settingsVoting from localStorage
     const settingsVoting = JSON.parse(localStorage.getItem("settingsVoting"));
     if (settingsVoting && settingsVoting.isLogin === true) {
         authSection.style.display = "none";
         homepage.style.display = "flex";
         userNameElement.textContent = settingsVoting.username;
-        userRoleElement.textContent = settingsVoting.role.charAt(0).toUpperCase() + settingsVoting.role.slice(1);
+        userRoleElement.textContent = "Role: " + settingsVoting.role.charAt(0).toUpperCase() + settingsVoting.role.slice(1);
         userAvatarElement.src = settingsVoting.img;
         showIFrame("Elections/home.html");
+
+        if (settingsVoting.role.toLowerCase() !== "admin") {
+            manageElectionsItem.style.display = "none";
+        } else {
+            manageElectionsItem.style.display = "block";
+        }
     }
 
     signupLink.addEventListener("click", () => {
@@ -84,8 +90,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     homepage.style.display = "flex";
                     homepage.style.opacity = "1";
                     userNameElement.textContent = account.username;
-                    userRoleElement.textContent = "Role: " + account.role.charAt(0).toUpperCase() + account.role.slice(1);
+                    userRoleElement.textContent = account.role.charAt(0).toUpperCase() + account.role.slice(1);
                     userAvatarElement.src = account.img;
+
+                    if (account.role.toLowerCase() !== "admin") {
+                        manageElectionsItem.style.display = "none";
+                    } else {
+                        manageElectionsItem.style.display = "block";
+                    }
                 }, 400);
                 alert("Login successful!");
                 showIFrame("Elections/home.html");
@@ -98,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoutBtn) {
         logoutBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            localStorage.removeItem("settingsVoting"); // Remove current logged-in account settings
+            localStorage.removeItem("settingsVoting");
             authSection.style.display = "block";
             homepage.style.display = "none";
             alert("You have logged out. Please log in again.");
@@ -114,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         mainContent.appendChild(iframe);
     }
 
+    // Navigation event listeners
     document.getElementById("home-page").addEventListener("click", function () {
         showIFrame("Elections/home.html");
     });
@@ -130,7 +143,16 @@ document.addEventListener("DOMContentLoaded", () => {
         showIFrame("Result-Dashboard--main/Result-Dashboard--main/Results Page/main/mainpage.html");
     });
 
-    document.getElementById("settings-page").addEventListener("click", function () {
+    document.getElementById("settings-toggle").addEventListener("click", function () {
         showIFrame("Elections/JL.html");
     });
+    
+    document.getElementById("get-verified").addEventListener("click", function () {
+        showIFrame("Elections/bryan.html");
+    });
+
+    document.getElementById("change-password").addEventListener("click", function () {
+        showIFrame("Elections/change-password.html");
+    });
+  
 });

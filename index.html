@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication</title>
+    <link rel="icon" type="image/png" href="Images/logo.png">
+    <title>Voting System</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Authentication Section -->
     <div id="auth-section">
@@ -22,23 +25,28 @@
     <div id="homepage" style="display: none;">
         <div class="sidebar">
             <div class="user-profile">
-                <img src="Images//pfp.png" alt="User Avatar" class="user-avatar">
+                <img src="Images/pfp.png" alt="User Avatar" class="user-avatar">
                 <h3 class="user-name">Student Name</h3>
                 <p class="user-role">Student</p>
             </div>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="#" id="home-page"><i class="fa-solid fa-house"></i><span>Home</span></a></li>
-                    <li>
-                        <a href="#" id="voting-toggle"><i class="fa-solid fa-check-to-slot"></i><span>Elections</span>
-                            <i class="fa-solid fa-caret-down"></i>
-                        </a>
+                    <li><a href="#" id="voting-toggle"><i class="fa-solid fa-check-to-slot"></i><span>Elections</span></a>
                         <ul class="dropdown" id="voting-dropdown">
-                            <li><a href="#" id="manage-elections">Manage Elections</a></li>                       
+                            <li><a href="#" id="manage-elections">⦿ Manage Elections</a></li>
                         </ul>
                     </li>
-                    <li><a href="#" id="result-page"><i class="fa-solid fa-square-poll-vertical"></i><span>Results</span></a></li>
-                    <li><a href="#" id="settings-page"><i class="fa-solid fa-gear"></i><span>Settings</span></a></li>
+                    <li><a href="#" id="result-page"><i
+                                class="fa-solid fa-square-poll-vertical"></i><span>Results</span></a></li>
+                    <li><a href="#" id="settings-toggle"><i class="fa-solid fa-gear"></i><span>Settings</span>
+                            <i class="fa-solid fa-caret-down dropdown-caret"></i>
+                        </a>
+                        <ul class="dropdown" id="settings-dropdown">
+                            <li><a href="#" id="get-verified">⦿ Get Verified</a></li>
+                            <li><a href="#" id="change-password">⦿ Change Password</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i><span>Log-out</span></a></li>
                 </ul>
             </nav>
@@ -50,4 +58,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

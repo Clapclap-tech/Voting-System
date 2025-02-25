@@ -9,6 +9,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const electionData = {
+        "SSG Council Election": {
+          "startDate": "2024-12-05",
+          "endDate": "2024-12-16",
+          "candidates": [
+            {
+              "name": "kenjie",
+              "position": "President",
+              "image": "Images/pfp.png",
+              "gender": "Male",
+              "partylist": "com e",
+              "votes": 4,
+              "description": "No description",
+              "section": "bscpe 3 day",
+              "elected": false
+            },
+            {
+              "name": "bryan",
+              "position": "President",
+              "image": "Images/pfp.png",
+              "gender": "Male",
+              "partylist": "com e",
+              "votes": 3,
+              "description": "No description",
+              "section": "bscpe 3 day",
+              "elected": false
+            },
+            {
+              "name": "khitsly",
+              "position": "Vice President",
+              "image": "Images/pfp.png",
+              "gender": "Male",
+              "partylist": "hacker",
+              "votes": 3,
+              "description": "No description",
+              "section": "bscpe 3 day",
+              "elected": false
+            },
+            {
+              "name": "harold",
+              "position": "Vice President",
+              "image": "Images/pfp.png",
+              "gender": "Male",
+              "partylist": "hacker",
+              "votes": 2,
+              "description": "No description",
+              "section": "bscpe 3 day",
+              "elected": false
+            }
+          ],
+          "logo": "Images\\SSG.png"
+        },
+        "Engineering Society Election": {
+          "startDate": "2024-12-05",
+          "endDate": "2024-12-20",
+          "candidates": [],
+          "logo": "Images\\ES.png"
+        },
+        "ICPEP Election": {
+          "startDate": "2025-01-02",
+          "endDate": "2025-01-11",
+          "candidates": [],
+          "logo": "Images\\ICPEP.png"
+        },
+        "bscpe2": {
+          "startDate": "2026-12-26",
+          "endDate": "2026-01-18",
+          "candidates": [],
+          "logo": "Images\\ICPEP.png"
+        },
+        "bulldogan": {
+          "startDate": "2026-01-16",
+          "endDate": "2026-01-25",
+          "candidates": [],
+          "logo": "Images\\ES.png"
+        }
+      };
+      
+      // Check if "Election" exists in localStorage
+      if (!localStorage.getItem("Election")) {
+        localStorage.setItem("Election", JSON.stringify(electionData));
+      }      
+
     // Load elections and populate cards
     const storedData = JSON.parse(localStorage.getItem('Election')) || {};
     const today = new Date().toISOString().split('T')[0];

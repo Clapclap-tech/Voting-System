@@ -4,64 +4,512 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="home.css">
   <title>Election News</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(-135deg, rgba(171, 188, 255, 0.3), rgba(55, 70, 85, 1));
+      color: #ccc;
+      overflow-y: auto;
+      direction: ltr;
+    }
+
+    .center-horizontally {
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      min-height: 100%;
+      box-sizing: border-box;
+    }
+
+    main.content {
+      flex: 1;
+      padding: 40px;
+      background-color: #1f2f3f;
+      color: #ccc;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      margin-right: 300px;
+      /* ensure content doesn't overlap with the fixed sidebar */
+    }
+
+
+    .header-section {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 8px;
+      border-radius: 20px;
+      border: 1px solid #394f61;
+      font-size: 14px;
+      color: #333;
+      outline: none;
+      width: 100%;
+    }
+
+    .feed-title {
+      font-size: 24px;
+      color: #fff;
+      margin: 10px 0 0;
+      text-align: center;
+      flex: 1;
+    }
+
+    .toggle-btn-on-create-post {
+      background-color: #99ccff;
+      border: 1px solid #66a3ff;
+      color: #25384a;
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      margin-left: 20px;
+    }
+
+    .toggle-btn-on-create-post:hover {
+      background-color: #66a3ff;
+      color: #25384a;
+    }
+
+    .create-post-form {
+      background-color: #2b3f51;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #394f61;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .create-post-form h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .create-post-form label {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .create-post-form input[type="text"],
+    .create-post-form textarea,
+    .create-post-form select {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #394f61;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .create-post-form input[type="file"] {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .create-post-form button {
+      align-self: flex-start;
+      padding: 8px 16px;
+      background-color: #66a3ff;
+      border: none;
+      border-radius: 4px;
+      color: #25384a;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+    }
+
+    .create-post-form button:hover {
+      background-color: #aaccff;
+    }
+
+    aside.hot-topics {
+      position: fixed;
+      top: 20px;
+      /* Adjust based on desired vertical placement */
+      right: 50px;
+      /* Adjust as needed for alignment */
+      width: 250px;
+      height: 400px;
+      background-color: #25384a;
+      padding: 20px;
+      color: #fff;
+      box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+    }
+
+    .hot-topics h3 {
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    .hot-topics ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hot-topics ul li {
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .hot-topics ul li a {
+      color: #66a3ff;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .hot-topics ul li a:hover {
+      text-decoration: underline;
+      color: #aaccff;
+    }
+
+    .see-more-btn {
+      background: none;
+      border: none;
+      color: #66a3ff;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 5px;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    .see-more-btn:hover {
+      color: #aaccff;
+    }
+
+    #extraTopics {
+      display: none;
+      margin-top: 5px;
+    }
+
+    #extraTopics li {
+      margin: 10px 0;
+    }
+
+    .card {
+      background-color: #2b3f51;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #394f61;
+      color: #ccc;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      position: relative;
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .delete-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+      color: #888;
+      background-color: #25384a;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+      margin: 5px;
+    }
+
+    .delete-icon:hover {
+      background-color: #66a3ff;
+      color: #25384a;
+    }
+
+    .card-content h2 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .card-content p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .card-content img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 5px 0 0;
+      border-top: 1px solid #394f61;
+      gap: 20px;
+    }
+
+    .vote-controls,
+    .comments {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #25384a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #66a3ff;
+      margin-right: 6px;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+    }
+
+    .vote-count,
+    .comment-count {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .vote-controls:hover .icon-circle {
+      background-color: #66a3ff;
+      color: #25384a;
+    }
+
+    .comments:hover .icon-circle {
+      background-color: #66a3ff;
+      color: #25384a;
+    }
+
+    .vote-controls:hover .vote-count {
+      color: #ccc;
+    }
+
+    .comments:hover .comment-count {
+      color: #ccc;
+    }
+
+    .comments-section {
+      background-color: #25384a;
+      margin: 10px 0 0;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .comments-section h4 {
+      margin-top: 0;
+      color: #fff;
+    }
+
+    .single-comment {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #394f61;
+      padding-bottom: 5px;
+    }
+
+    .single-comment p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .comment-author {
+      color: #66a3ff;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+
+    .comment-text {
+      color: #ddd;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
   <div class="center-horizontally">
     <main class="content" id="mainContent">
-      <!-- Header Section (Search bar and title) -->
       <div class="header-section">
         <div class="search-bar">
           <input type="text" id="searchInput" placeholder="Search posts..." oninput="searchPosts()" />
         </div>
         <h2 class="feed-title">Voting Feed</h2>
+        <button class="toggle-btn-on-create-post" id="createPostToggleBtn" onclick="toggleCreatePostForm()">
+          Create Post
+        </button>
       </div>
 
-      <!-- CREATE POST FORM -->
-      <div class="create-post-form" id="createPostForm">
+      <div class="create-post-form" id="createPostForm" style="display:none;">
         <h3>Create Post</h3>
+
         <label for="postTitle">Title:</label>
         <input type="text" id="postTitle" placeholder="Enter post title" />
+
         <label for="postDesc">Description:</label>
         <textarea id="postDesc" rows="3" placeholder="Enter post description"></textarea>
+
         <label for="postImg">Image:</label>
         <input type="file" id="postImg" accept="image/*" />
+
+        <label for="postTopic">Category (Hot Topic):</label>
+        <select id="postTopic">
+          <option value="Elections">Elections</option>
+          <option value="Political Discussion">Political Discussion</option>
+          <option value="Voting Rights">Voting Rights</option>
+          <option value="Campaign Updates">Campaign Updates</option>
+          <option value="Debates">Debates</option>
+          <option value="Early Voting Tips">Early Voting Tips</option>
+          <option value="Post-Election Analysis">Post-Election Analysis</option>
+          <option value="Policy Changes">Policy Changes</option>
+          <option value="Senate Races">Senate Races</option>
+          <option value="Local Initiatives">Local Initiatives</option>
+        </select>
+
         <button onclick="createNewPost()">Post</button>
       </div>
 
-      <!-- Posts Container -->
       <div id="postsContainer"></div>
     </main>
+
     <aside class="hot-topics">
       <h3>HOT TOPICS</h3>
-      <ul>
-        <li><a href="#">Elections</a></li>
-        <li><a href="#">Political Discussion</a></li>
-        <li><a href="#">Voting Rights</a></li>
-        <li><a href="#">Campaign Updates</a></li>
-        <li><a href="#">Debates</a></li>
+      <ul id="hotTopicsList">
+        <li><a href="#" onclick="filterByTopic(event, 'Elections')">Elections</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Political Discussion')">Political Discussion</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Voting Rights')">Voting Rights</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Campaign Updates')">Campaign Updates</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Debates')">Debates</a></li>
       </ul>
+      <!-- Extra topics hidden by default -->
+      <ul id="extraTopics">
+        <li><a href="#" onclick="filterByTopic(event, 'Early Voting Tips')">Early Voting Tips</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Post-Election Analysis')">Post-Election Analysis</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Policy Changes')">Policy Changes</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Senate Races')">Senate Races</a></li>
+        <li><a href="#" onclick="filterByTopic(event, 'Local Initiatives')">Local Initiatives</a></li>
+      </ul>
+      <button class="see-more-btn" onclick="toggleExtraTopics()">See more</button>
     </aside>
   </div>
-  <script>
 
-    let currentAcc = JSON.parse(localStorage.getItem("settingsVoting"));
+  <script>
+    // If "settingsVoting" not present, create a default user with role Student
+    if (!localStorage.getItem("settingsVoting")) {
+      localStorage.setItem("settingsVoting", JSON.stringify({ role: "Student" }));
+    }
+    let currentAcc = JSON.parse(localStorage.getItem("settingsVoting")) || { role: "Student" };
     const userRole = currentAcc.role;
     const isPrivileged = (userRole === "admin" || userRole === "moderator");
 
-    // When the DOM is loaded, show/hide the create post form based on the user's role and render posts
     document.addEventListener("DOMContentLoaded", function () {
+      // Hide the create post toggle button if not admin/mod
       if (!isPrivileged) {
-        document.getElementById("createPostForm").style.display = "none";
-      } else {
-        document.getElementById("createPostForm").style.display = "flex";
+        document.getElementById("createPostToggleBtn").style.display = "none";
       }
       renderPosts();
     });
 
-    // Render posts into a separate container
+    let formVisible = false;
+    function toggleCreatePostForm() {
+      const formEl = document.getElementById("createPostForm");
+      formVisible = !formVisible;
+      formEl.style.display = formVisible ? "flex" : "none";
+    }
+
+    // Sample post data
+    const defaultPostData = [
+      {
+        "title": "Presidential Debate Highlights",
+        "description": "A recap of last night's presidential debate covering key moments and candidate positions.",
+        "imgSrc": "https://news.northeastern.edu/wp-content/uploads/2024/06/presidental_debate_1400.jpg",
+        "votes": 230,
+        "hotTopic": "Elections",
+        "comments": [
+          { "user": "UserA", "text": "This debate was wild!" },
+          { "user": "UserB", "text": "Loved the closing statements." }
+        ]
+      },
+      {
+        "title": "Voter Registration Deadline Approaching!",
+        "description": "Make sure you're registered to vote before the upcoming deadline. Check your eligibility now!",
+        "imgSrc": "https://images.squarespace-cdn.com/content/v1/55f1f6a6e4b0fdc2e7a036d1/b2cc1855-6c37-4b41-b437-c7563c34a52f/Capture.PNG?format=1500w",
+        "votes": 180,
+        "hotTopic": "Voting Rights",
+        "comments": [
+          { "user": "UserC", "text": "Thanks for the reminder!" },
+          { "user": "UserD", "text": "Already registered last week." }
+        ]
+      },
+      {
+        "title": "Election Polls Update",
+        "description": "Latest polling data shows shifting voter sentiment. Who’s leading in the race?",
+        "imgSrc": "https://i.ytimg.com/vi/M47lRt5e6uI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDKjIsyoDjSTav9pBqKm2XzPqGpow",
+        "votes": 150,
+        "hotTopic": "Campaign Updates",
+        "comments": [
+          { "user": "UserE", "text": "Polls are so unpredictable..." },
+          { "user": "UserF", "text": "Hoping for a big turnout this time!" }
+        ]
+      },
+      {
+        "title": "New Policy Discussion",
+        "description": "A deep dive into the proposed policy changes and their impacts on local communities.",
+        "imgSrc": "https://www.undp.org/sites/g/files/zskgke326/files/2024-07/undp_pgpt-173_0.jpg",
+        "votes": 75,
+        "hotTopic": "Political Discussion",
+        "comments": []
+      },
+      {
+        "title": "Debate Schedule Released",
+        "description": "Find out the dates and times for upcoming debates.",
+        "imgSrc": "https://media.cnn.com/api/v1/images/stellar/prod/231120155109-01b-presidential-debates-file.jpg?c=16x9&q=h_653,w_1160,c_fill/f_webp",
+        "votes": 120,
+        "hotTopic": "Debates",
+        "comments": []
+      }
+    ];
+
+    // Initialize local storage if not present
+    if (!localStorage.getItem("postFeedVoting")) {
+      localStorage.setItem("postFeedVoting", JSON.stringify(defaultPostData));
+    }
+    let storedData = JSON.parse(localStorage.getItem("postFeedVoting")) || [];
+
     function renderPosts(filteredPosts = null) {
       const postsContainer = document.getElementById("postsContainer");
       postsContainer.innerHTML = "";
@@ -71,48 +519,12 @@
       });
     }
 
-    // Default post data
-    const defaultPostData = [
-      {
-        title: "Presidential Debate Highlights",
-        description: "A recap of last night's presidential debate covering key moments and candidate positions.",
-        imgSrc: "Images/giphy.gif",
-        votes: 230,
-        comments: [
-          { user: "UserA", text: "This debate was wild!" },
-          { user: "UserB", text: "Loved the closing statements." }
-        ]
-      },
-      {
-        title: "Voter Registration Deadline Approaching!",
-        description: "Make sure you're registered to vote before the upcoming deadline. Check your eligibility now!",
-        imgSrc: "Images/giphy.gif",
-        votes: 180,
-        comments: [
-          { user: "UserC", text: "Thanks for the reminder!" },
-          { user: "UserD", text: "Already registered last week." }
-        ]
-      },
-      {
-        title: "Election Polls Update",
-        description: "Latest polling data shows shifting voter sentiment. Who’s leading in the race?",
-        imgSrc: "Images/giphy.gif",
-        votes: 150,
-        comments: [
-          { user: "UserE", text: "Polls are so unpredictable..." },
-          { user: "UserF", text: "Hoping for a big turnout this time!" }
-        ]
-      }
-    ];
-
-    if (!localStorage.getItem("postFeedVoting")) {
-      localStorage.setItem("postFeedVoting", JSON.stringify(defaultPostData));
-    }
-    let storedData = JSON.parse(localStorage.getItem("postFeedVoting")) || [];
-
     function createPostCard(post, index) {
       const commentCount = post.comments.length;
-      const deleteIconHTML = isPrivileged ? `<div class="delete-icon" onclick="deletePost(${index})">×</div>` : ``;
+      const deleteIconHTML = isPrivileged
+        ? `<div class="delete-icon" onclick="deletePost(${index})">×</div>`
+        : ``;
+
       return `
         <div class="card" data-index="${index}">
           <div class="card-content">
@@ -151,7 +563,9 @@
 
     function toggleComments(index) {
       const commentsSection = document.getElementById(`comments-section-${index}`);
-      commentsSection.style.display = commentsSection.style.display === "block" ? "none" : "block";
+      if (!commentsSection) return;
+      commentsSection.style.display =
+        commentsSection.style.display === "block" ? "none" : "block";
     }
 
     function changeVote(index, direction) {
@@ -168,7 +582,10 @@
       const title = document.getElementById("postTitle").value.trim();
       const description = document.getElementById("postDesc").value.trim();
       const fileInput = document.getElementById("postImg");
+      const selectedTopic = document.getElementById("postTopic").value;
+
       let imagePath = "Images/giphy.gif";
+
       if (fileInput.files && fileInput.files.length > 0) {
         imagePath = "Images/" + fileInput.files[0].name;
       }
@@ -181,13 +598,17 @@
         description: description,
         imgSrc: imagePath,
         votes: 0,
+        hotTopic: selectedTopic,
         comments: []
       };
       storedData.unshift(newPost);
       localStorage.setItem("postFeedVoting", JSON.stringify(storedData));
+
       document.getElementById("postTitle").value = "";
       document.getElementById("postDesc").value = "";
       fileInput.value = "";
+      document.getElementById("postTopic").selectedIndex = 0;
+
       renderPosts();
     }
 
@@ -205,11 +626,41 @@
         renderPosts();
         return;
       }
-      const filtered = storedData.filter(post => post.title.toLowerCase().includes(searchValue));
+      const filtered = storedData.filter(post =>
+        post.title.toLowerCase().includes(searchValue) ||
+        post.description.toLowerCase().includes(searchValue)
+      );
       renderPosts(filtered);
     }
 
-    renderPosts();
+    // Filter by hot topic
+    let currentTopic = null;
+    function filterByTopic(e, topic) {
+      e.preventDefault();
+      // If the same topic is clicked again, reset to show all
+      if (currentTopic === topic) {
+        currentTopic = null;
+        renderPosts();
+        return;
+      }
+      currentTopic = topic;
+      const filtered = storedData.filter(post => post.hotTopic === topic);
+      renderPosts(filtered);
+    }
+
+    let extraVisible = false;
+    function toggleExtraTopics() {
+      const extraTopicsEl = document.getElementById("extraTopics");
+      const seeMoreBtn = document.querySelector(".see-more-btn");
+      extraVisible = !extraVisible; // flip the state
+      if (extraVisible) {
+        extraTopicsEl.style.display = "block";
+        seeMoreBtn.textContent = "See less";
+      } else {
+        extraTopicsEl.style.display = "none";
+        seeMoreBtn.textContent = "See more";
+      }
+    }
   </script>
 </body>
 
